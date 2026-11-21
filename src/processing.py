@@ -17,6 +17,18 @@ def filter_by_state(data_list, state='EXECUTED'):
     """
     return [item for item in data_list if item.get('state') == state]
 
+def sort_by_date(data_list, reverse = True):
+    """
+    Сортирует список словарей по значению ключа 'date'.
+
+    :param data_list: Список словарей для сортировки
+    :param reverse: Порядок сортировки.
+            True (по умолчанию) - по убыванию (сначала новые)
+    :return: Новый отсортированный список словарей
+    """
+    return sorted(data_list, key=lambda item: item.get('date',''), reverse=reverse)
+
+
 # 1. Вызов со статусом по умолчанию  'EXECUTED'
 executed_items = filter_by_state(data)
 print("По умолчанию (EXECUTED):")
@@ -26,3 +38,8 @@ print(executed_items)
 canceled_items = filter_by_state(data, 'CANCELED')
 print("\n С параметром (CANCELED):")
 print(canceled_items)
+
+# 3. Сортировка по дате по умолчанию (сперва самы последние)
+sorted_desc = sort_by_date(data)
+print("\n Сортировка по дате по убыванию (по умолчанию):")
+print(sorted_desc)
