@@ -1,9 +1,10 @@
 import re
 import os
+from typing import Any
 
 
 # функция из задачи 2
-def extract_names(filename):
+def extract_names(filename: Any) -> list[Any]:
     names_list = []
     try:
         # Создаем папку data, если ее еще нет
@@ -25,7 +26,7 @@ def extract_names(filename):
 
 
 # задача 3
-def separate_names(names_list):
+def separate_names(names_list: list[Any]) -> tuple[list[Any], list[Any]]:
     """Разделяет список на русские и английские имена."""
     russian_names = []
     english_names = []
@@ -40,7 +41,7 @@ def separate_names(names_list):
     return russian_names, english_names
 
 
-def save_sorted_to_file(names, filename):
+def save_sorted_to_file(names: list[Any], filename: str) -> list[Any]:
     """Сортирует имена и сохраняет их в файл в папке data/."""
     # Создаем папку data, если ее еще нет
     current_dir = os.path.dirname(__file__)
@@ -54,6 +55,7 @@ def save_sorted_to_file(names, filename):
         for name in sorted_names:
             file.write(f"{name}\n")
     print(f"Файл сохранен: {filepath}")
+    return sorted_names
 
 
 # ---Основная программа ---
