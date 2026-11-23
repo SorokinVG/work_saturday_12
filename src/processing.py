@@ -1,7 +1,14 @@
-from typing import Any
+from typing import TypedDict
+
+
+class Transaction(TypedDict):
+    id: int
+    state: str
+    date: str
+
 
 # Исходные данные
-data = [
+data: list[Transaction] = [
     {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
     {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
     {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
@@ -9,7 +16,9 @@ data = [
 ]
 
 
-def filter_by_state(data_list: list[Any], state: str = "EXECUTED") -> list[Any]:
+def filter_by_state(
+    data_list: list[Transaction], state: str = "EXECUTED"
+) -> list[Transaction]:
     """
     Фильтрует список словарей по значению ключа 'state'.
 
@@ -20,7 +29,9 @@ def filter_by_state(data_list: list[Any], state: str = "EXECUTED") -> list[Any]:
     return [item for item in data_list if item.get("state") == state]
 
 
-def sort_by_date(data_list: list[Any], _reverse: bool = True) -> list[Any]:
+def sort_by_date(
+    data_list: list[Transaction], reverse: bool = True
+) -> list[Transaction]:
     """
     Сортирует список словарей по значению ключа 'date'.
 
@@ -29,20 +40,21 @@ def sort_by_date(data_list: list[Any], _reverse: bool = True) -> list[Any]:
             True (по умолчанию) - по убыванию (сначала новые)
     :return: Новый отсортированный список словарей
     """
-    return sorted(data_list, key=lambda item: item.get("date", ""), reverse=_reverse)
+    return sorted(data_list, key=lambda item: item.get("date") or "", reverse=reverse)
 
 
-# 1. Вызов со статусом по умолчанию  'EXECUTED'
-executed_items = filter_by_state(data)
-print("По умолчанию (EXECUTED):")
-print(executed_items)
+if __name__ == "__main__":
+    # 1. Вызов со статусом по умолчанию 'EXECUTED'
+    executed_items = filter_by_state(data)
+    print("По умолчанию (EXECUTED):")
+    print(executed_items)
 
-# 2. Вызов с явным указанием статуса  'CANCELED'
-canceled_items = filter_by_state(data, "CANCELED")
-print("\n С параметром (CANCELED):")
-print(canceled_items)
+    # 2. Вызов с явным указанием статуса 'CANCELED'
+    canceled_items = filter_by_state(data, "CANCELED")
+    print("\nС параметром (CANCELED):")
+    print(canceled_items)
 
-# 3. Сортировка по дате по умолчанию (сперва самы последние)
-sorted_desc = sort_by_date(data)
-print("\n Сортировка по дате по убыванию (по умолчанию):")
-print(sorted_desc)
+    # 3. Сортировка по дате по умолчанию (сначала самые последние)
+    sorted_desc = sort_by_date(data)
+    print("\nСортировка по дате по убыванию (по умолчанию):")
+    print(sorted_desc)
